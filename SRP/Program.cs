@@ -8,16 +8,21 @@ namespace ByteBee.SRP
         {
             BenutzerBegrüßen();
 
-            Benutzer benutzer = NeuenBenutzerAbfragen();
+            BenutzerAnlegen();
+
+            AnwendungBeenden();
+        }
+
+        static void BenutzerAnlegen()
+        {
+            Benutzer benutzer = BenutzerdatenAbfragen();
 
             if (SindDieBenutzerdatenGültig(benutzer) == false)
             {
-                AnwendungBeenden();
+                throw new UngültigeBenutzerdatenException();
             }
 
             NeuenBenutzerSpeichern(benutzer);
-
-            AnwendungBeenden();
         }
 
         static void BenutzerBegrüßen()
@@ -25,7 +30,7 @@ namespace ByteBee.SRP
             Console.WriteLine(" - BENUTZER ERSTELLEN -");
         }
 
-        static Benutzer NeuenBenutzerAbfragen()
+        static Benutzer BenutzerdatenAbfragen()
         {
             Benutzer benutzer = new Benutzer();
             benutzer.Vorname = VornameAbfragen();
@@ -129,5 +134,9 @@ namespace ByteBee.SRP
             public string Email { get; set; }
             public string Passwort { get; set; }
         }
+    }
+
+    internal class UngültigeBenutzerdatenException : Exception
+    {
     }
 }
